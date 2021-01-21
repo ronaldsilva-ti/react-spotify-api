@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
-import auth from './auth/index';
+import search from './search/index';
 
 
 export default combineReducers({
-    auth
+    search
 });
