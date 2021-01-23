@@ -8,14 +8,14 @@ const ContainerCard = styled.div`
     padding:8px;
     width:200px;
     border-radius:5px;    
-    cursor:pointer;
+    /* cursor:pointer; */
     margin:4px;
+    
 
     &:hover{
         background-color:black;
     }
 `;
-
 const ImageAlbum = styled.img`
     width: 100%;
     margin:auto;   
@@ -36,8 +36,6 @@ const Title = styled.h3`
 
 
 `
-
-
 const Card = ({ image,description, name }) => {
     return(
             <ContainerCard>

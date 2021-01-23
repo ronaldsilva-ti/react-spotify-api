@@ -1,7 +1,7 @@
 import { useState,useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { searchName } from '../../store/reducers/search/index';
+import { searchName } from '../../store/reducers/filters/index';
 
 const Input = styled.input`
     width:50%;
@@ -30,13 +30,11 @@ export default function Search(){
     }
 
     return(
-    <Container>
         <Input 
             type="text"
             placeholder="Faça uma pesquisa"
             value={ search }
             onChange={onChange}
         />
-    </Container>
     )
 }

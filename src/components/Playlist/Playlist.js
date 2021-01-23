@@ -1,49 +1,78 @@
-import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect, useState, useLayoutEffect } from 'react';
+import { getFilters, getAlbums } from '../../store/reducers/filters/index'
+import { useSelector, useDispatch } from 'react-redux';
 import axios from 'axios';
 import Card from '../core/Card'
 import styled from 'styled-components';
 
 function Filters() {
 
+  const client_id = '37a3d30be7494be48db5e40cd1054862';
+  const secret_id = '6a2ea1abffab4a39862d7167426685a8';
+  const search = useSelector(state => state.filters.search)
+  const [play, setPlay] = useState([])
+  const [filteredAlbum,setFilteredAlbum] = useState([])
+  const filter = useSelector(state => state.filters.filters)
+  const countryState = useSelector(state => state.filters.country)
+  const localeState = useSelector(state => state.filters.locale)
+  const albumLimit = useSelector(state => state.filters.albumLimit);
+  const [messageError, setMessageError] = useState({ message:false, messageHelp:'' })
+  const dispatch = useDispatch()
+
+  // useLayoutEffect(() => {
+  //     const interval = setInterval(() => {
+  //       console.log('CHAMANDO API');        
+  //       getApi()
+  //     }, 30000);
+  //     return () => clearInterval(interval);
+  //   }, []);
+
+  useEffect(() => {
+    if(client_id == '' && secret_id == ''){
+      setMessageError({
+        ...messageError,
+        message:true,
+        messageHelp:'Informe seu Cliente ID e seu Secret ID por favor no arquivo .env'
+      })
+    }
+
+  },[])
 
   useEffect(() => {
     getApiFilters();
-    getApi();
-   
-  },[])
+    getApi();   
+  },[ countryState, localeState, albumLimit ])
 
- 
+  // useEffect(() => {
+  //   console.log('count',count)
+  // },[count])
 
-
-  const search = useSelector(state => state.search)
-  const [play, setPlay] = useState([])
-  const [filteredAlbum,setFilteredAlbum] = useState([])
 
  
   useEffect(() => {
     setFilteredAlbum(
       play.filter((res) =>
-        res.name.toLowerCase().includes(search[0].toLowerCase())
+        res.name.toLowerCase().includes(search?.toLowerCase())
         // console.log("NAME",res.name.toLowerCase().includes(search[0].toLowerCase()))
       )
     );
-  }, [play,search]);
-  
-  
+  }, [play,search]);  
+
+  useEffect(() => {
+    console.log('search',search)
+  }, [search])
 
 
   async function getApiFilters(){
       const res = await axios('http://www.mocky.io/v2/5a25fade2e0000213aa90776');
       const data = res.data;
-      console.log('getApiFilters',data)
+      console.log('getApiFilters',data.filters)
+      dispatch(getFilters(data.filters))
   }
-
 
  async function getApi(){
    
-    const client_id = '37a3d30be7494be48db5e40cd1054862';
-    const secret_id = '6a2ea1abffab4a39862d7167426685a8';
+
 
     const config_token = {
       headers: {
@@ -56,8 +85,7 @@ function Filters() {
 
     const api_token = await axios('https://accounts.spotify.com/api/token', config_token)
 
-
-    const api_playlist = await axios(`https://api.spotify.com/v1/browse/featured-playlists?country=BR`,{
+    const api_playlist = await axios(`https://api.spotify.com/v1/browse/featured-playlists?locale=${localeState}&&country=${countryState}&&limit=${albumLimit}`,{
       method:'GET',
       headers:{
         'Authorization' : 'Bearer ' +  api_token.data.access_token,
@@ -72,17 +100,27 @@ function Filters() {
 
 
   return (
-     <Container>
-         {
-          filteredAlbum?.map(item => (
-            <Card 
-              image={ item.images[0].url }
-              description={ item.description }  
-              name={ item.name }
-            />
-          ))
-        }
-     </Container>
+    <>
+      {
+        messageError.message === true ? <MessageError style={{ color:'white', }}>{messageError.messageHelp}</MessageError> : 
+        (
+          <>
+            <Container>
+              {
+                filteredAlbum?.map(item => (
+                  <Card 
+                    image={ item.images[0].url }
+                    description={ item.description }  
+                    name={ item.name }
+                  />
+                ))
+              }
+          </Container>
+
+          </>
+        )
+      }
+    </>
   );
 }
 
@@ -94,4 +132,12 @@ const Container = styled.div`
   flex-wrap:wrap;
   align-items:center;
   justify-content:center;
+`
+
+
+const MessageError = styled.p`
+  font-size:18px;
+  color:greenyellow !important;
+  font-family: 'Signika', sans-serif;
+  text-align:center;
 `

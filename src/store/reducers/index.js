@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
-import search from './search/index';
+import filters from './filters/index';
 
 
 export default combineReducers({
-    search
+    filters
 });
