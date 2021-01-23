@@ -18,7 +18,5 @@ export const ContainerSelect = styled.div`
 
 
 export const TextSelect = styled.p`
-color:white;
-
-
+    color:white;
 `;

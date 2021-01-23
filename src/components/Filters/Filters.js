@@ -77,7 +77,7 @@ export default function Filters(){
     return(
     <Container>
         <Search/>
-        <TextSelect>Local</TextSelect>
+        <TextSelect>Língua</TextSelect>
         <SelectContainer onChange={ onChangeLocale } value={localeState}>
             {
                 locale !== undefined && locale !== null ?
