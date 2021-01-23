@@ -7,8 +7,9 @@ import styled from 'styled-components';
 
 function Filters() {
 
-  const client_id = '37a3d30be7494be48db5e40cd1054862';
-  const secret_id = '6a2ea1abffab4a39862d7167426685a8';
+  const client_id = `${process.env.REACT_APP_CLIENT_ID}`;
+  const secret_id = `${process.env.REACT_APP_CLIENT_SECRET}`;
+  
   const search = useSelector(state => state.filters.search)
   const [play, setPlay] = useState([])
   const [filteredAlbum,setFilteredAlbum] = useState([])

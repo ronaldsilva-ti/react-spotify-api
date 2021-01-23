@@ -4,7 +4,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Search from '../core/Search';   
 import Select from '../core/Select';
-import { SelectContainer } from '../core/Select';
+import { SelectContainer, } from '../core/Select';
+import { TextSelect } from './styles';
 
 import { getLocale, getCountry, getLimitAlbum } from '../../store/reducers/filters/index';
 
@@ -76,6 +77,7 @@ export default function Filters(){
     return(
     <Container>
         <Search/>
+        <TextSelect>Local</TextSelect>
         <SelectContainer onChange={ onChangeLocale } value={localeState}>
             {
                 locale !== undefined && locale !== null ?
@@ -91,6 +93,7 @@ export default function Filters(){
             }     
        </SelectContainer>
 
+       <TextSelect>País</TextSelect>            
        <SelectContainer onChange={ onChangeCountry } value={countryState}>
             {
                 locale !== undefined && locale !== null ?
@@ -106,6 +109,7 @@ export default function Filters(){
             }     
        </SelectContainer>
 
+       <TextSelect>Limite</TextSelect>    
        <SelectContainer onChange={ onChangeLimit } value={ albumLimit }>   
        
 
@@ -126,4 +130,11 @@ const Container = styled.div`
     display:flex;
     justify-content:space-around;
     margin-bottom:15px;
+
+    @media (max-width: 514px) {
+        flex-wrap:wrap;
+    }
+    @media (max-width: 360px) {
+
+    }
 `;

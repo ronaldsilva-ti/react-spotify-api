@@ -10,6 +10,15 @@ const Input = styled.input`
     background-color:whitesmoke;
     border-color:whitesmoke;
     color:black;
+
+    @media (max-width: 514px) {
+        width:100%;
+
+    }
+    @media (max-width: 360px) {
+        width:100%;
+
+    }
 `;
 const Container = styled.div`
     display:flex;
