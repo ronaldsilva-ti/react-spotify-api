@@ -5,9 +5,9 @@
 
 1.Install Node.js
 
-2.```git clone https://github.com/ronaldsilva-ti/react-spotify-api.git```
+2.```git clone https://github.com/ronaldsilva-ti/react-spotify-test.git```
 
-3.```cd react-spotify-api```
+3.```cd react-spotify-test```
 
 4.```npm install```
 
